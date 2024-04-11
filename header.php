@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="author" content="longan" />
-    <link href="/CK/site.css" rel="stylesheet"/>
+    <link href="site1.css" rel="stylesheet"/>
     <title>Project web đọc truyện tranh</title>
 </head>
 <body>

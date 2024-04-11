@@ -1,5 +1,6 @@
 <?php 
     require_once("entities/comic.class.php");
+    require_once("entities/genre.class.php");
     if(isset($_POST["btnsubmit"])){
         $title = $_POST["txtName"];
         $description = $_POST["txtDescription"];
@@ -14,13 +15,14 @@
         else {
             header("Location: add_comic.php?inserted");
         }
+           
     }
 ?>
 
 <?php include_once("header.php"); ?>
 <?php
     if(isset($_GET["inserted"])) {
-        echo "<h2>Thêm sản phẩm thành công</h2>";
+        echo "<h2>Thêm truyện thành công</h2>";
     }
 ?>
 <form method="post">
@@ -49,6 +51,21 @@
         </div>
     </div>
     <div class="row">
+    <div class="lbltitle">
+        <label>Thể loại</label>
+    </div>
+    <div class="lblinput">
+        <select name="txtGenre">
+            <?php
+                $genres = Genre::list_genre();
+                foreach($genres as $genre) {
+                    echo "<option value='".$genre["genreID"]."'>".$genre["name"]."</option>";
+                }
+            ?>
+        </select>
+    </div>
+
+    <div class="row">
         <div class="lbltitle">
             <label>Ảnh bìa truyện</label>
         </div>
@@ -58,7 +75,7 @@
     </div>
     <div class="row">
         <div class="submit">
-            <input type="submit" name="btnsubmit" value="Thêm sản phẩm"/>
+            <input type="submit" name="btnsubmit" value="Thêm truyện"/>
         </div>
     </div>
 </form>

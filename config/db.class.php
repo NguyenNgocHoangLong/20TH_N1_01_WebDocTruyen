@@ -1,7 +1,7 @@
 <?php 
 class Db{
     protected static $connection;
-    public function connnect(){
+    public function connect(){
         if(!isset(self::$connection)){
             $config = parse_ini_file("config.ini");
             self::$connection = new mysqli("localhost", $config["username"], $config["password"], $config["databasename"]);
@@ -12,7 +12,7 @@ class Db{
         return self::$connection;
     }
     public function query_execute($queryString) {
-        $connection = $this->connnect();
+        $connection = $this->connect();
         $result = $connection->query($queryString);
         $connection->close();
         return $result;
