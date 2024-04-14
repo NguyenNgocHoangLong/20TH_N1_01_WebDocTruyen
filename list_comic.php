@@ -3,7 +3,7 @@
 ?>
 
 <?php 
-    include_once("header.php");
+    include_once("header.php");  
     $prods = Comic::list_comic();
     $count = 0;
     echo "<div class='product-list'>";

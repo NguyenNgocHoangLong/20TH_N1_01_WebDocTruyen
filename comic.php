@@ -23,14 +23,75 @@ if($stmt = $conn->prepare($query)){
         echo "<p>Genre: " . htmlspecialchars($row['genre_name']) . "</p>";
         echo "<p>" . htmlspecialchars($row['description']) . "</p>";
         echo "<p>Views: " . htmlspecialchars($row['views']) . "</p>";
-        echo "</div>";
-    } else {
+        echo "<p>Likes: " . htmlspecialchars($row['like']) . "</p>";
+        echo "<p>Follows: " . htmlspecialchars($row['watch']) . "</p>";
+        echo "<p>Reads: " . htmlspecialchars($row['readed']) . "</p>";
+        echo "<p><button onclick='likeComic({$row['comic_id']})'>Thích</button></p>"; 
+        echo "<p><button onclick='watchComic({$row['comic_id']})'>Theo dõi</button></p>";
+        echo "<p><button onclick='readedComic({$row['comic_id']})'>Đọc</button></p>";
+        echo "</div>";?>
+    <?php } else {
         echo "<div>Comic not found.</div>";
     }
 } else {
     echo "Error preparing statement.";
 }?>
+<script>
+    function likeComic(comicId) {
+        $.post('like_comic.php', {comic_id: comicId}, function(data) {
+            $('p#likeCount').text(data.likeCount);
+        }, 'json');
+    }
+
+    function watchComic(comicId) {
+        $.post('watch_comic.php', {comic_id: comicId}, function(data) {
+            $('p#watchCount').text(data.watchCount);
+        }, 'json');
+    }
+
+    function readedComic(comicId) {
+        $.post('read_comic.php', {comic_id: comicId}, function(data) {
+            $('p#likeCount').text(data.likeCount);
+        }, 'json');
+    }
+
+    public static function likeComic($comicId) {
+        $comic = self::getComicById($comicId);
+        if($comic) {
+            $comic->like++;
+            if($comic->save()) {
+                return $comic->like;
+            }
+        }
+        return false;
+    }
+
+    public static function watchComic($comicId) {
+        $comic = self::getComicById($comicId);
+        if($comic) {
+            $comic->watch++;
+            if($comic->save()) {
+                return $comic->watch;
+            }
+        }
+        return false;
+    }
+
+    public static function readedComic($comicId) {
+        $comic = self::getComicById($comicId);
+        if($comic) {
+            $comic->readed++;
+            if($comic->save()) {
+                return $comic->readed;
+            }
+        }
+        return false;
+    }
+</script>
 <ul class="menu">
+    <li> 
+        <a href="chapter.php">chap 1 </a>
+    </li>
     <li>
         <a href="list_comic.php">Quay lại</a>
     </li>

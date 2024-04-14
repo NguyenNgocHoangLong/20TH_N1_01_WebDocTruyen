@@ -6,6 +6,7 @@
     include_once("header.php");
     $prods = Comic::list_comic_DESC_rank();
     $count = 0;
+    $rank = 1;
     echo "<div class='product-list'>";
     foreach($prods as $item){
         if ($count % 4 == 0 ) {
@@ -14,7 +15,8 @@
         echo "<div class='product-item'>";
         echo "<img src='images/{$item["image"]}' alt='{$item["title"]}'>";
         echo "<p>{$item["title"]}</p>";
-        echo "<p>{$item["views"]}</p>";
+        echo "<p>Hạng $rank</p> ";
+        $rank++;
         echo "<a href='comic.php?id={$item["comic_id"]}'><button>Xem chi tiết</button></a>";
         echo "</div>";
         $count++;
