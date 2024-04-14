@@ -1,21 +1,44 @@
 <?php include_once("header.php");?>
-
 <div class="chapter_content">
     <?php
-    $directory = 'images/vampire-chan-cant-suck-properly/chap1'; // Đường dẫn đến thư mục chứa các hình ảnh
-    $allowed_types = array('jpg', 'jpeg', 'png', 'gif');  // Các định dạng file được phép
+    $comic_id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Comic ID not found.');
+    if($comic_id==1){
+        $directory = 'images/oshi-no-ko/chap1';
+    }elseif($comic_id==2){
+        $directory = 'images/chanto-uenai-kyuuketsuki-chan/chap1';
+    }elseif($comic_id==3){
+        $directory = 'images/one-piece/chap1';
+    }elseif($comic_id==4){
+        $directory = 'images/onepunch-man/chap1';
+    }elseif($comic_id==5){
+        $directory = 'images/kimetsu-no-yaiba/chap1';
+    }elseif($comic_id==6){
+        $directory = 'images/dragon-quest/chap1';
+    }elseif($comic_id==7){
+        $directory = 'images/slam-dunk/chap1';
+    }elseif($comic_id==8){
+        $directory = 'images/jujutsu-kaisen/chap1';
+    }elseif($comic_id==9){
+        $directory = 'images/chainsawman/chap1';
+    }elseif($comic_id==10){
+        $directory = 'images/yozakura-san-chi-no-daisakusen/chap1';
+    }elseif($comic_id==11){
+        $directory = 'images/tensei-shitara-slime-datta-ken/chap1';
+    }elseif($comic_id==12){
+        $directory = 'images/no-game-no-life/chap1';
+    }
+    $allowed_types = array('jpg', 'jpeg', 'png', 'gif');
     $file_parts = array();
     $ext = '';
     $title = '';
     $i = 0;
 
-    // Mở thư mục
     $dir_handle = @opendir($directory) or die("There is an error with your image directory!");
 
-    while ($file = readdir($dir_handle)) {  // đọc thư mục
+    while ($file = readdir($dir_handle)) {  
         if ($file == '.' || $file == '..') continue;
 
-        $file_parts = explode('.', $file);  // tách tên file để lấy phần mở rộng
+        $file_parts = explode('.', $file);
         $ext = strtolower(array_pop($file_parts));
 
         if (in_array($ext, $allowed_types)) {
@@ -26,7 +49,7 @@
         }
     }
 
-    closedir($dir_handle);  // Đóng thư mục
+    closedir($dir_handle); 
     ?>
 </div>
 

@@ -9,7 +9,7 @@ $conn = $db->connect();
 $comic_id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Comic ID not found.');
 
 $query = "SELECT comics.*, GROUP_CONCAT(genres.name SEPARATOR ', ') AS genre_name FROM comics LEFT JOIN comic_genres ON comics.comic_id = comic_genres.comic_id LEFT JOIN genres ON comic_genres.genre_id = genres.genre_id WHERE comics.comic_id = ? GROUP BY comics.comic_id LIMIT 0,1";
-
+$comic_id = isset($_GET['id']) ? $_GET['id'] : die('ERROR: Comic ID not found.');
 if($stmt = $conn->prepare($query)){
     $stmt->bind_param("i", $comic_id);
     $stmt->execute();
@@ -29,6 +29,7 @@ if($stmt = $conn->prepare($query)){
         echo "<p><button onclick='likeComic({$row['comic_id']})'>Thích</button></p>"; 
         echo "<p><button onclick='watchComic({$row['comic_id']})'>Theo dõi</button></p>";
         echo "<p><button onclick='readedComic({$row['comic_id']})'>Đọc</button></p>";
+        echo "<a href='chapter.php?id={$row["comic_id"]}'><button>chap 1</button></a>";
         echo "</div>";?>
     <?php } else {
         echo "<div>Comic not found.</div>";
@@ -89,9 +90,6 @@ if($stmt = $conn->prepare($query)){
     }
 </script>
 <ul class="menu">
-    <li> 
-        <a href="chapter.php">chap 1 </a>
-    </li>
     <li>
         <a href="list_comic.php">Quay lại</a>
     </li>

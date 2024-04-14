@@ -1,14 +1,11 @@
 <?php
 require_once("entities/readers.class.php");
-
-$message = "";  // Message to display errors or success
-
+$message = "";
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $username = $_POST['username'];
     $email = $_POST['email'];
     $password = $_POST['password'];
     $confirm_password = $_POST['confirm_password'];
-
     if (empty($username) || empty($email) || empty($password)) {
         $message = "All fields are required.";
     } elseif ($password !== $confirm_password) {
@@ -16,8 +13,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     } else {
         $db = new Db();
         $conn = $db->connect();
-
-        // Check if username or email already exists
         $stmt = $conn->prepare("SELECT * FROM readers WHERE username = ? OR email = ?");
         $stmt->bind_param("ss", $username, $email);
         $stmt->execute();
@@ -25,7 +20,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ($result->num_rows > 0) {
             $message = "Username or email already exists.";
         } else {
-            // Insert the new user
             $password_hash = password_hash($password, PASSWORD_DEFAULT);
             $stmt = $conn->prepare("INSERT INTO readers (username, email, password_hash) VALUES (?, ?, ?)");
             $stmt->bind_param("sss", $username, $email, $password_hash);

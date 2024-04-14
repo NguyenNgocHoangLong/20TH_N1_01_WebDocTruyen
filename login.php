@@ -1,31 +1,23 @@
 <?php
 require_once("entities/readers.class.php");
-
 session_start();
-
-$message = "";  // Message to display errors or success
-
+$message = "";
 if (isset($_POST['login'])) {
     $username = $_POST['username'];
     $password = $_POST['password'];
-
     if (!empty($username) && !empty($password)) {
         $db = new Db();
         $conn = $db->connect();
-
-        // Prepare statement to avoid SQL Injection
         $stmt = $conn->prepare("SELECT * FROM readers WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
 
         if ($row = $result->fetch_assoc()) {
-            // Verify password
             if (password_verify($password, $row['password_hash'])) {
-                // Password is correct, set session variables
                 $_SESSION['user_id'] = $row['readerID'];
                 $_SESSION['username'] = $row['username'];
-                header("Location: list_comic.php");  // Redirect to a welcome page
+                header("Location: list_comic.php");
                 exit;
             } else {
                 $message = "Invalid username or password.";

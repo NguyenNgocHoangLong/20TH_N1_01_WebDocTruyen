@@ -12,12 +12,8 @@ require_once("entities/comic.class.php");
 
 if(isset($_GET['keyword'])) {
     $keyword = $_GET['keyword'];
-
-    // Thực hiện truy vấn SQL để tìm kiếm các mục phù hợp trong bảng comics
     $results = Comic::search_comic($keyword);
-
     if($results) {
-        // Hiển thị kết quả
         echo "<div class='product-list'>";
         foreach($results as $item) {
             echo "<div class='product-item'>";
@@ -28,7 +24,6 @@ if(isset($_GET['keyword'])) {
         }
         echo "</div>";
     } else {
-        // Hiển thị thông báo nếu không có kết quả
         echo "<p>Không có truyện phù hợp</p>";
     }
 }
